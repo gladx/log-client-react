@@ -8,20 +8,23 @@ import {
   useToast,
   FormLabel,
   FormControl,
+  Select
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 
-function addLog() {
+function addLog({ fetchLogs }: { fetchLogs: () => void }) {
   const toast = useToast();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
+  const [mood, setMood] = useState(4);
   const [loading, setLoading] = useState(false);
 
   const handleLogChange = (e: any) => setTitle(e.target.value);
+  const handleMoodChange = (e: any) => setMood(+e.target.value);
 
   const addLogFn = () => {
-    addLogs(title)
+    addLogs(title, mood)
       .then((res) => {
         toast({
           title: 'Success',
@@ -29,7 +32,9 @@ function addLog() {
           status: 'success',
           duration: 3000,
         });
-        navigate('/dashboard');
+        fetchLogs();
+        setTitle('');
+        setMood(0);
       })
       .catch((res) => {
         toast({
@@ -47,8 +52,21 @@ function addLog() {
   return (
     <div className="App">
       <div className="card">
-        <FormControl>
+        <FormControl mb={5}>
+          <FormLabel>Write something</FormLabel>
           <Input type="text" value={title} onChange={handleLogChange} />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Mood</FormLabel>
+          <Select value={mood} placeholder='Select option' onChange={handleMoodChange}>
+            <option value='7'>😄 Supper Good</option>
+            <option value='6'>😊 Really Good</option>
+            <option value='5'>🙂 Good</option>
+            <option value='4'>😐 OK</option>
+            <option value='3'>😟 Bad</option>
+            <option value='2'>😫 Really Bad</option>
+            <option value='1'>😭 Supper Bad</option>
+          </Select>
         </FormControl>
         <Stack
           direction="row"

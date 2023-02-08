@@ -45,8 +45,8 @@ export const login = async (email: string, password: string) => {
   });
 };
 
-export const addLogs = async (content: string) => {
-  return instance.post('logs', { content }).then((res) => {
+export const addLogs = async (content: string, mood: number) => {
+  return instance.post('logs', { content, mood }).then((res) => {
     if (res.status === 200) {
       // success
     }

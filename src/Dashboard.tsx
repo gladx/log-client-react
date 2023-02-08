@@ -11,10 +11,7 @@ function Dashboard() {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if(!localStorage.getItem('token')) {
-      return;
-    }
+  const fetchLogs = () => {
     setLoading(true);
     getLogs()
       .then((res) => {
@@ -33,6 +30,13 @@ function Dashboard() {
       .finally(() => {
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      return;
+    }
+    fetchLogs();
   }, []);
 
   return (
@@ -42,10 +46,10 @@ function Dashboard() {
       </Helmet>
       <h1>Dashboard</h1>
       <div>
-          <LogOut />
+        <LogOut />
       </div>
       <div>
-          <AddLog />
+        <AddLog fetchLogs={fetchLogs} />
       </div>
       <div className="card">
         {loading ? (
