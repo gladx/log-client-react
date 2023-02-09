@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-console.log(import.meta.env);
-
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_ENDPOINT,
   timeout: 30000,
@@ -27,10 +25,10 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if(error?.response?.status === 401) {
-        // redirect to /login
-        // @ts-ignore
-        window.__navigate__?.('login');
+    if (error?.response?.status === 401) {
+      // redirect to /login
+      // @ts-ignore
+      window.__navigate__?.('login');
     }
     return Promise.reject(error);
   }
@@ -55,3 +53,34 @@ export const addLogs = async (content: string, mood: number) => {
 };
 
 export const getLogs = async (page = 1) => instance.get(`logs?page=${page}`);
+
+export const getMoodFormat = (mood: number) => {
+  switch (mood) {
+    case 1:
+      return '😭';
+      break;
+    case 2:
+      return '😫';
+      break;
+    case 3:
+      return '😟';
+      break;
+    case 4:
+      return '😐';
+      break;
+    case 5:
+      return '🙂';
+      break;
+    case 6:
+      return '😊';
+      break;
+    case 7:
+      return '😄';
+      break;
+
+    default:
+      break;
+  }
+
+  return ':-:'
+}

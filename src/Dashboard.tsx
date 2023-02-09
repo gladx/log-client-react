@@ -1,7 +1,19 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { getLogs } from './api';
-import { Text, Spinner, useToast } from '@chakra-ui/react';
+import { getLogs, getMoodFormat } from './api';
+import {
+  Text,
+  Spinner,
+  useToast,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import AddLog from './AddLog';
 import LogOut from './LogOut';
@@ -55,13 +67,28 @@ function Dashboard() {
         {loading ? (
           <Spinner size="xl" />
         ) : (
-          logs.map((log) => {
-            return (
-              <Text key={log['@id']} fontSize="1xl">
-                {log.content} | {log.createdAt}
-              </Text>
-            );
-          })
+          <TableContainer>
+            <Table variant='simple' size='sm'>
+              <Thead>
+                <Tr>
+                  <Th>title</Th>
+                  <Th>mood</Th>
+                  <Th>Time</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {logs.map((log) => {
+                  return (
+                    <Tr>
+                      <Td>{log.content}</Td>
+                      <Td>{getMoodFormat(log.mood)}</Td>
+                      <Td >{log.createdAt}</Td>
+                    </Tr>
+                  )
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
         )}
       </div>
     </div>
