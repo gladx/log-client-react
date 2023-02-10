@@ -18,7 +18,7 @@ function logOut() {
   };
 
   return (
-    <Button onClick={logOutFn} bgColor="red.400">
+    <Button onClick={logOutFn} colorScheme='red'>
       Logout
     </Button>
   );

@@ -29,8 +29,8 @@ const TableItem = (item: any, eKey: string) => {
   }
   return (
     <Tr key={item['@id']}>
+      <Td textAlign="center">{getMoodFormat(item.mood)}</Td>
       <Td>{content || item.content}</Td>
-      <Td>{getMoodFormat(item.mood)}</Td>
       <Td>{item.createdAt}</Td>
     </Tr>
   );
@@ -85,10 +85,8 @@ function Dashboard() {
         <EncryptionKey />
         <LogOut />
       </Flex>
-      <div>
-        <AddLog fetchLogs={fetchLogs} />
-      </div>
-      <div className="card">
+      <AddLog fetchLogs={fetchLogs} />
+      <div className="table-container">
         {loading ? (
           <Spinner size="xl" />
         ) : (
@@ -96,8 +94,8 @@ function Dashboard() {
             <Table variant="simple" size="sm">
               <Thead>
                 <Tr>
-                  <Th>title</Th>
                   <Th>mood</Th>
+                  <Th>title</Th>
                   <Th>Time</Th>
                 </Tr>
               </Thead>

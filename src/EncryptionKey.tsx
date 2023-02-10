@@ -49,12 +49,18 @@ export default function EncryptionKey() {
   }, []);
 
   if (key) {
-    return <Button onClick={clearKey}>Clear Encryption key</Button>;
+    return (
+      <Button colorScheme="gray" variant="outline" onClick={clearKey}>
+        Clear Encryption key
+      </Button>
+    );
   }
 
   return (
     <>
-      <Button onClick={onOpen}>Set Encryption key</Button>
+      <Button colorScheme="green" variant="outline" onClick={onOpen}>
+        Set Encryption key
+      </Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -58,45 +58,43 @@ function addLog({ fetchLogs }: { fetchLogs: () => void }) {
   };
 
   return (
-    <div className="App">
-      <div className="card">
-        <FormControl mb={5}>
-          <FormLabel>Write something</FormLabel>
-          <Input type="text" value={title} onChange={handleLogChange} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Mood</FormLabel>
-          <Select
-            value={mood}
-            placeholder="Select option"
-            onChange={handleMoodChange}
-          >
-            <option value="7">😄 Supper Good</option>
-            <option value="6">😊 Really Good</option>
-            <option value="5">🙂 Good</option>
-            <option value="4">😐 OK</option>
-            <option value="3">😟 Bad</option>
-            <option value="2">😫 Really Bad</option>
-            <option value="1">😭 Supper Bad</option>
-          </Select>
-        </FormControl>
-        <Stack
-          direction="row"
-          justifyContent={'center'}
-          paddingTop={4}
-          spacing={4}
+    <div className="form-container">
+      <FormControl mb={5}>
+        <FormLabel>Write something</FormLabel>
+        <Input type="text" value={title} onChange={handleLogChange} />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Mood</FormLabel>
+        <Select
+          value={mood}
+          placeholder="Select option"
+          onChange={handleMoodChange}
         >
-          <Button
-            isDisabled={!title || !mood}
-            isLoading={loading}
-            onClick={addLogFn}
-            bgColor="green.400"
-            leftIcon={<Icon as={HiPlus} />}
-          >
-            Add Log
-          </Button>
-        </Stack>
-      </div>
+          <option value="7">😄 Supper Good</option>
+          <option value="6">😊 Really Good</option>
+          <option value="5">🙂 Good</option>
+          <option value="4">😐 OK</option>
+          <option value="3">😟 Bad</option>
+          <option value="2">😫 Really Bad</option>
+          <option value="1">😭 Supper Bad</option>
+        </Select>
+      </FormControl>
+      <Stack
+        direction="row"
+        justifyContent={'center'}
+        paddingTop={4}
+        spacing={4}
+      >
+        <Button
+          isDisabled={!title || !mood}
+          isLoading={loading}
+          onClick={addLogFn}
+          colorScheme='green'
+          leftIcon={<Icon as={HiPlus} />}
+        >
+          Add Log
+        </Button>
+      </Stack>
     </div>
   );
 }
