@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { getLogs, getMoodFormat } from './api';
 import {
-  Text,
   Spinner,
   useToast,
   Table,
@@ -11,15 +10,37 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
+  Flex,
   TableContainer,
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import AddLog from './AddLog';
 import LogOut from './LogOut';
+import EncryptionKey from './EncryptionKey';
+import { decrypt } from 'crypto-js/aes';
+import CryptoJS from 'crypto-js';
+import { useAtom } from 'jotai';
+import { eKeyAtom } from './atoms';
+
+const TableItem = (item: any, eKey: string) => {
+  let content: string = item.content || '';
+  if (content && content.endsWith('=')) {
+    if (eKey) {
+      content = decrypt(item.content, eKey).toString(CryptoJS.enc.Utf8);
+    }
+  }
+  return (
+    <Tr key={item['@id']}>
+      <Td>{content || item.content}</Td>
+      <Td>{getMoodFormat(item.mood)}</Td>
+      <Td>{item.createdAt}</Td>
+    </Tr>
+  );
+};
 
 function Dashboard() {
   const toast = useToast();
+  const [eKey] = useAtom(eKeyAtom);
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +63,7 @@ function Dashboard() {
       .finally(() => {
         setLoading(false);
       });
-  }
+  };
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -57,9 +78,15 @@ function Dashboard() {
         <title>Dashboard</title>
       </Helmet>
       <h1>Dashboard</h1>
-      <div>
+      <Flex
+        flexDir="row"
+        alignItems="center"
+        justifyContent="space-between"
+        mt={3}
+      >
+        <EncryptionKey />
         <LogOut />
-      </div>
+      </Flex>
       <div>
         <AddLog fetchLogs={fetchLogs} />
       </div>
@@ -68,7 +95,7 @@ function Dashboard() {
           <Spinner size="xl" />
         ) : (
           <TableContainer>
-            <Table variant='simple' size='sm'>
+            <Table variant="simple" size="sm">
               <Thead>
                 <Tr>
                   <Th>title</Th>
@@ -76,17 +103,7 @@ function Dashboard() {
                   <Th>Time</Th>
                 </Tr>
               </Thead>
-              <Tbody>
-                {logs.map((log) => {
-                  return (
-                    <Tr>
-                      <Td>{log.content}</Td>
-                      <Td>{getMoodFormat(log.mood)}</Td>
-                      <Td >{log.createdAt}</Td>
-                    </Tr>
-                  )
-                })}
-              </Tbody>
+              <Tbody>{logs.map((item) => TableItem(item, eKey))}</Tbody>
             </Table>
           </TableContainer>
         )}
