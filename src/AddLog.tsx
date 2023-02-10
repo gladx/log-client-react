@@ -42,7 +42,7 @@ function addLog({ fetchLogs }: { fetchLogs: () => void }) {
         });
         fetchLogs();
         setTitle('');
-        setMood(0);
+        setMood(4);
       })
       .catch((res) => {
         toast({
@@ -87,6 +87,7 @@ function addLog({ fetchLogs }: { fetchLogs: () => void }) {
           spacing={4}
         >
           <Button
+            isDisabled={!title || !mood}
             isLoading={loading}
             onClick={addLogFn}
             bgColor="green.400"
