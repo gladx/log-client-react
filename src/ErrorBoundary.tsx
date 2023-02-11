@@ -17,7 +17,7 @@ export default class ErrorBoundary extends React.Component<any, any> {
   }
 
   render() {
-    if (!this.state.hasError) {
+    if (this.state.hasError) {
       return (
         <Center bg="tomato" color="white" padding={20}>
           <Flex flexDirection="column">
