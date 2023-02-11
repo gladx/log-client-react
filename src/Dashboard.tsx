@@ -25,7 +25,11 @@ import { eKeyAtom } from './atoms';
 const TableItem = (item: any, eKey: string) => {
   let content: string = item.content || '';
   if (content && eKey) {
-    content = decrypt(item.content, eKey).toString(CryptoJS.enc.Utf8);
+    try {
+      content = decrypt(item.content, eKey).toString(CryptoJS.enc.Utf8);
+    } catch (e) {
+      content = '';
+    }
   }
   return (
     <Tr key={item['@id']}>
