@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import ErrorBoundary from './ErrorBoundary';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -27,10 +28,12 @@ const router = createBrowserRouter([
 window.__navigate__ = router.navigate;
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ChakraProvider>
-    <Helmet>
-      <title>Loading...</title>
-    </Helmet>
-    <RouterProvider router={router} />
-  </ChakraProvider>
+  <ErrorBoundary>
+    <ChakraProvider>
+      <Helmet>
+        <title>Loading...</title>
+      </Helmet>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </ErrorBoundary>
 );
