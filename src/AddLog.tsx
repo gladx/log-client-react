@@ -11,7 +11,7 @@ import {
   Select,
   Icon,
 } from '@chakra-ui/react';
-import { HiPlus } from 'react-icons/hi2';
+import { HiPlus, HiOutlineShieldCheck } from 'react-icons/hi2';
 import { encrypt } from 'crypto-js/aes';
 import { useAtom } from 'jotai';
 import { eKeyAtom } from './atoms';
@@ -89,8 +89,8 @@ function addLog({ fetchLogs }: { fetchLogs: () => void }) {
           isDisabled={!title || !mood}
           isLoading={loading}
           onClick={addLogFn}
-          colorScheme='green'
-          leftIcon={<Icon as={HiPlus} />}
+          colorScheme= {eKey ? 'blue' : 'green' }
+          leftIcon={<Icon as={eKey ? HiOutlineShieldCheck : HiPlus} />}
         >
           Add Log
         </Button>
